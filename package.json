@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "@prisma/client": "^5.18.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.28.1"
+  },
+  "name": "matricula",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "devDependencies": {
+    "prisma": "^5.18.0"
+  },
+  "scripts": {
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
