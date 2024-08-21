@@ -17,7 +17,7 @@ export async function createAluno(request, reply) {
     const aluno = await prisma.aluno.create({
       data: { nome, email, ra, cpf },
     });
-    reply.send(aluno);
+    reply.status(201).send(aluno); // 201 CREATED
   } catch (error) {
     reply.status(500).send({ error: 'Erro ao criar aluno' });
   }
@@ -31,11 +31,16 @@ export async function updateAluno(request, reply) {
     // captura os dados do aluno do corpo da requisição
     const { nome, email, ra, cpf } = request.body;
 
+    // Verifica se "ra" ou "cpf" estão presentes na requisição
+    if (ra || cpf) {
+        return reply.status(400).send({ error: 'Esse campo não pode ser editado' });
+    }
+
     // atualiza os dados do aluno
     try {
         const aluno = await prisma.aluno.update({
             where: { id },
-            data: { nome, email, ra, cpf },
+            data: { nome, email },
         });
 
         // retorna os dados do aluno atualizados
