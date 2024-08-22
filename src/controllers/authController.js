@@ -18,7 +18,7 @@ export async function register(request, reply) {
       },
     });
 
-    const token = this.jwt.sign({ id: user.id }, { expiresIn: 300 });
+    const token = this.jwt.sign({ id: user.id }, { expiresIn: 18000 });
     reply.send({ user, token });
   } catch (error) {
     if (error.code === 'P2002') {
@@ -45,7 +45,7 @@ export async function login(request, reply) {
       return reply.status(401).send({ message: 'Invalid email or password' });
     }
 
-    const token = this.jwt.sign({ id: user.id }, { expiresIn: 300 });
+    const token = this.jwt.sign({ id: user.id }, { expiresIn: 18000 });
     return reply.send({ user, token });
   } catch (error) {
     console.error('Login Error:', error);
