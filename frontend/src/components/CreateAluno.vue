@@ -21,7 +21,8 @@
             </v-alert>
           </v-card-text>
           <v-col>
-            <v-btn color="primary" @click="saveAluno">Cadastrar Aluno</v-btn>
+            <v-btn color="primary" class="mr-2" @click="saveAluno">Cadastrar Aluno</v-btn>
+            <v-btn color="secondary" @click="goBack">Voltar</v-btn>
           </v-col>
         </v-card>
       </v-col>
@@ -76,10 +77,15 @@ export default {
       }
     };
 
+    const goBack = () => {
+      router.back();
+    };
+
     return {
       aluno,
       valid,
       saveAluno,
+      goBack,
       successMessage,
       errorMessages,
     };

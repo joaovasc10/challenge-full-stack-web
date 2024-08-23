@@ -14,6 +14,31 @@ export async function getAllAlunos(request, reply) {
     }
 }
 
+export async function getAluno(request, reply) {
+  // captura o id do aluno da URL
+  const { id } = request.params;
+
+  try {
+    // busca o aluno no banco de dados pelo id
+    const aluno = await prisma.aluno.findUnique({
+      where: { id },
+    });
+
+    // se o aluno não for encontrado, retorna um erro 404
+    if (!aluno) {
+      return reply.status(404).send({ message: 'Aluno não encontrado' });
+    }
+
+    // retorna os dados do aluno encontrado
+    reply.send(aluno);
+  } catch (error) {
+    // retorna uma mensagem de erro caso ocorra algum problema
+    console.error('Erro ao buscar aluno:', error.message);
+    reply.status(500).send({ error: 'Erro ao buscar aluno' });
+  }
+}
+
+
 export async function createAluno(request, reply) {
   try {
     const { nome, email, ra, cpf } = request.body;
@@ -81,4 +106,5 @@ export async function deleteAluno(request, reply) {
   }
 }
 
-export default { getAllAlunos, createAluno, updateAluno, deleteAluno };
+export default { getAllAlunos, getAluno, createAluno, updateAluno, deleteAluno };
+

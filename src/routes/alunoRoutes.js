@@ -1,6 +1,6 @@
 // routes/alunoRoutes.js
 
-import { getAllAlunos, createAluno, updateAluno, deleteAluno } from '../controllers/alunoController.js';
+import { getAllAlunos, createAluno, updateAluno, deleteAluno, getAluno } from '../controllers/alunoController.js';
 import { validate } from '../middlewares/validation.js';
 import { z } from 'zod';
 
@@ -25,6 +25,8 @@ export default async function alunoRoutes(app, options) {
   
   // rota para listar todos os alunos
   app.get('/alunos', { preHandler: [app.authenticate] }, getAllAlunos);
+
+  app.get('/alunos/:id', { preHandler: [app.authenticate] }, getAluno);
 
   // rota para criar um novo aluno
   app.post('/alunos', { preHandler: [app.authenticate, validate(alunoSchema)] }, createAluno);

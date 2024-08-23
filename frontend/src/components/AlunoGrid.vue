@@ -38,7 +38,7 @@
           </v-col>
         </v-row>
 
-        <v-table height="300px" fixed-header>
+        <v-table height="500px" fixed-header>
           <thead>
             <tr>
               <th class="text-center font-weight-bold">Registro Acadêmico</th>
@@ -53,7 +53,7 @@
               <td class="text-center">{{ item.nome }}</td>
               <td class="text-center">{{ item.cpf }}</td>
               <td class="text-center">
-                <v-btn color="primary" @click="updateAluno(item.id)">Editar</v-btn>
+                <v-btn color="primary" class="mr-2" @click="updateAluno(item.id)">Editar</v-btn>
                 <v-btn color="error" @click="deleteAluno(item.id)">Excluir</v-btn>
               </td>
             </tr>
@@ -85,7 +85,7 @@ const fetchAlunos = async () => {
 };
 
 const updateAluno = (id) => {
-  router.push(`/alunos/edit/${id}`);
+  router.push(`/alunos/update/${id}`);
 };
 
 const deleteAluno = async (id) => {

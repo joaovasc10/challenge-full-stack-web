@@ -3,13 +3,14 @@ import AlunoGrid from '../components/AlunoGrid.vue'
 import Login from '../components/LoginAdmin.vue';
 import Register from '../components/RegisterAdmin.vue';
 import CreateAluno from '@/components/CreateAluno.vue';
+import UpdateAluno from '@/components/UpdateAluno.vue'; 
 
 const routes = [
   { path: '/', name: 'Login', component: Login },
   { path: '/register', name: 'Register', component: Register },
   { path: '/alunos', name: 'AlunoGrid', component: AlunoGrid },
   { path: '/alunos/create', name: 'CreateAluno', component: CreateAluno },
-  { path: '/alunos/edit/:id', name:'EditAluno', component: CreateAluno },
+  { path: '/alunos/update/:id', name:'UpdateAluno', component: UpdateAluno },
 ];
 
 const router = createRouter({
