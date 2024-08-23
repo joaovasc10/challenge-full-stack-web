@@ -1,4 +1,4 @@
-//src/routes/alunoRoutes.js
+// routes/alunoRoutes.js
 
 import { getAllAlunos, createAluno, updateAluno, deleteAluno } from '../controllers/alunoController.js';
 import { validate } from '../middlewares/validation.js';

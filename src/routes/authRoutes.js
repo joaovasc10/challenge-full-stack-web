@@ -1,4 +1,4 @@
-// middlewares/authRoutes.js
+// routes/authRoutes.js
 
 import { login, register } from '../controllers/authController.js';
 import { validate } from '../middlewares/validation.js';

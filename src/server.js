@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import jwt from '@fastify/jwt';
+import cors from '@fastify/cors';
 import alunoRoutes from "./routes/alunoRoutes.js";
 import authRoutes from './routes/authRoutes.js';
 import dotenv from 'dotenv';
@@ -9,6 +10,12 @@ dotenv.config();
 // console.log(process.env.DATABASE_URL);
 
 const app = fastify({ logger: true });
+
+// Registre o plugin CORS
+app.register(cors, {
+    origin: '*', // Permitir todas as origens (ajuste conforme necessário)
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+});
 
 // Registre o plugin JWT com a chave secreta do JWT carregada do arquivo .env
 app.register(jwt, {
