@@ -9,7 +9,7 @@ const routes = [
   { path: '/register', name: 'Register', component: Register },
   { path: '/alunos', name: 'AlunoGrid', component: AlunoGrid },
   { path: '/alunos/create', name: 'CreateAluno', component: CreateAluno },
-  { path: '/alunos/edit/:id', component: CreateAluno },
+  { path: '/alunos/edit/:id', name:'EditAluno', component: CreateAluno },
 ];
 
 const router = createRouter({

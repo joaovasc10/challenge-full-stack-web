@@ -1,29 +1,19 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-navigation-drawer v-model="drawer" app>
-      <v-list dense>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="title">MENU</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider></v-divider>
+      <v-list>
         <v-list-item link to="/alunos">
-          <v-list-item-icon>
+          <template v-slot:prepend>
             <v-icon>mdi-account</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Alunos</v-list-item-title>
-          </v-list-item-content>
+          </template>
+          <v-list-item-title>Alunos</v-list-item-title>
         </v-list-item>
         <v-spacer></v-spacer>
         <v-list-item @click="logout">
-          <v-list-item-icon>
+          <template v-slot:prepend>
             <v-icon>mdi-logout</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Logout</v-list-item-title>
-          </v-list-item-content>
+          </template>
+          <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -35,69 +25,55 @@
 
     <v-main>
       <v-container>
-        <v-card>
-          <v-card-title>
-            <v-row>
-              <v-col cols="8">
-                <v-text-field
-                  v-model="search"
-                  label="Buscar Aluno"
-                  append-icon="mdi-magnify"
-                  @input="fetchAlunos"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="4" class="text-right">
-                <v-btn color="primary" @click="navigateToCreate">Cadastrar Aluno</v-btn>
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-data-table
-            :headers="headers"
-            :items="alunos"
-            :search="search"
-            class="elevation-1"
-          >
-            <template v-slot:[`item.ra`]="{ item }">
-              <td>{{ item.ra }}</td>
-            </template>
-            <template v-slot:[`item.nome`]="{ item }">
-              <td>{{ item.nome }}</td>
-            </template>
-            <template v-slot:[`item.cpf`]="{ item }">
-              <td>{{ item.cpf }}</td>
-            </template>
-            <template v-slot:[`item.actions`]="{ item }">
-              <td>
-                <v-btn small @click="updateAluno(item.id)" color="primary">
-                  Editar
-                </v-btn>
-                <v-btn small @click="deleteAluno(item.id)" color="red">
-                  Excluir
-                </v-btn>
+        <v-row class="mb-4 d-flex align-center">
+          <v-col cols="9">
+            <v-text-field
+              v-model="search"
+              label="Buscar Aluno"
+              append-icon="mdi-magnify"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="2" class="d-flex justify-end">
+            <v-btn color="primary" @click="navigateToCreate">Cadastrar Aluno</v-btn>
+          </v-col>
+        </v-row>
+
+        <v-table height="300px" fixed-header>
+          <thead>
+            <tr>
+              <th class="text-center font-weight-bold">Registro Acadêmico</th>
+              <th class="text-center font-weight-bold">Nome</th>
+              <th class="text-center font-weight-bold">CPF</th>
+              <th class="text-center font-weight-bold">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in filteredAlunos" :key="item.id">
+              <td class="text-center">{{ item.ra }}</td>
+              <td class="text-center">{{ item.nome }}</td>
+              <td class="text-center">{{ item.cpf }}</td>
+              <td class="text-center">
+                <v-btn color="primary" @click="updateAluno(item.id)">Editar</v-btn>
+                <v-btn color="error" @click="deleteAluno(item.id)">Excluir</v-btn>
               </td>
-            </template>
-          </v-data-table>
-        </v-card>
+            </tr>
+          </tbody>
+        </v-table>
       </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import api from '../api';
 import { useRouter } from 'vue-router';
 
 const drawer = ref(false);
 const search = ref('');
 const alunos = ref([]);
+
 const router = useRouter();
-const headers = ref([
-  { text: 'RA', value: 'ra' },
-  { text: 'Nome', value: 'nome' },
-  { text: 'CPF', value: 'cpf' },
-  { text: 'Ações', value: 'actions', sortable: false }
-]);
 
 const fetchAlunos = async () => {
   try {
@@ -121,9 +97,20 @@ const deleteAluno = async (id) => {
   }
 };
 
+const filteredAlunos = computed(() => {
+  return alunos.value.filter((aluno) => {
+    return (
+      aluno.ra.toString().includes(search.value) ||
+      aluno.nome.toLowerCase().includes(search.value.toLowerCase()) ||
+      aluno.cpf.includes(search.value)
+    );
+  });
+});
+
+
 const navigateToCreate = () => {
-  router.push('/alunos/create');
-};
+    router.push('/alunos/create');
+  };
 
 const logout = () => {
   localStorage.removeItem('authToken');
@@ -133,3 +120,9 @@ const logout = () => {
 
 onMounted(fetchAlunos);
 </script>
+
+<style scoped>
+.text-center {
+  text-align: center;
+}
+</style>
